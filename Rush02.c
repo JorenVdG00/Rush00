@@ -1,60 +1,37 @@
 #include <unistd.h>
 
-void putchar(char letter)
-{
-    write (1, &letter, 1);
+void putchar(char letter) {
+    write(1, &letter, 1);
 }
 
-void rush(int x, int y)
-{
-    int     row = 1;
-    int     column = 1;
-    char    newline = '\n';
-    char    space = ' ';
-    
-    if ((x >0) && (y>0))
-    {
-        putchar('A');
-        column++;
-        while (column < x)
-        {
-            putchar('B');
-            column++;
+void print_row(int width, char start, char middle, char end) {
+    if (width > 0) {
+        putchar(start);
+        for (int i = 2; i < width; i++) {
+            putchar(middle);
         }
-        putchar('A');
-        putchar(newline);
-        row++;
-        column = 1;
-        while (row < y)
-        {
-            putchar('B');
-            column++;
-            while (column < x)
-            {
-                putchar(space);
-                column++;
-            }
-            putchar('B');
-            row++;
-            column = 1;
-            putchar(newline);
+        if (width > 1) {
+            putchar(end);
         }
-        if (y > 1)
-        {
-            putchar('C');
-            column++;
-            while (column < x)
-            {
-                putchar('B');
-                column++;
-            }
-            putchar('C');
-            putchar(newline);
-        }
+        putchar('\n');
+    }
+}
+
+void rush(int x, int y) {
+    if (x <= 0 || y <= 0) return;
+
+    print_row(x, 'A', 'B', 'A');
+
+    for (int i = 2; i < y; i++) {
+        print_row(x, 'B', ' ', 'B');
+    }
+
+    if (y > 1) {
+        print_row(x, 'C', 'B', 'C');
     }
 }
 
 int main() {
-    rush(5,1);
+    rush(15, 19);
     return 0;
 }
